@@ -2,302 +2,502 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cre8tive Consulting Simulator</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cre8tive Consulting Leadership Simulator</title>
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
       margin: 0;
-      padding: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3efe8;
+      color: #2f2a25;
     }
 
-    .container {
-      max-width: 850px;
-      margin: auto;
-      background: white;
-      border-radius: 16px;
-      padding: 35px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    .app {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    h1 {
-      color: #1f3c88;
-      margin-bottom: 5px;
+    .card {
+      width: 100%;
+      max-width: 880px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
     }
 
-    .subtitle {
-      color: #555;
-      margin-bottom: 30px;
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #8a5a2b;
+      margin-bottom: 8px;
+    }
+
+    h1 { margin: 0 0 10px; font-size: 32px; }
+    h2 { margin-top: 24px; font-size: 22px; }
+    h3 { margin-top: 0; }
+
+    .pmTag {
+      display: inline-block;
+      background: #f7e4c7;
+      color: #5e3a16;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 14px;
     }
 
     .progress {
-      margin-bottom: 25px;
-      font-weight: bold;
-      color: #1f6feb;
-    }
-
-    .scenario-box {
-      background: #eef4ff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 25px;
-    }
-
-    .choice {
-      display: block;
+      height: 10px;
       width: 100%;
-      margin-bottom: 15px;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #1f6feb;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      text-align: left;
+      background: #eee5da;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 24px 0;
     }
 
-    .choice:hover {
-      background: #174ea6;
+    .progress div {
+      height: 100%;
+      background: #b87532;
+      transition: width 0.3s ease;
     }
 
-    #feedback {
-      display: none;
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 10px;
-      background: #f0f8f2;
-      color: #1f4d2b;
-      font-weight: bold;
-    }
-
-    #nextBtn {
-      display: none;
-      margin-top: 20px;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #28a745;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #scoreBox {
-      margin-top: 25px;
+    .setup {
       font-size: 18px;
-      font-weight: bold;
-      color: #1f3c88;
+      line-height: 1.6;
+      background: #faf7f2;
+      border-left: 5px solid #b87532;
+      padding: 18px;
+      border-radius: 10px;
     }
 
-    .footer {
-      margin-top: 35px;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
+    .options {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
     }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      background: #8a5a2b;
+      color: white;
+      padding: 14px 18px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button:hover { background: #6f451e; }
+
+    .option {
+      text-align: left;
+      background: #f7f1e8;
+      color: #2f2a25;
+      border: 2px solid #ead9c4;
+      line-height: 1.45;
+    }
+
+    .option:hover { background: #f2e5d4; }
+
+    .option.selected {
+      background: #e8d0b0;
+      border-color: #b87532;
+    }
+
+    .feedback {
+      margin-top: 28px;
+      padding: 22px;
+      background: #eef7ef;
+      border-left: 5px solid #3d7a45;
+      border-radius: 12px;
+    }
+
+    .feedback p {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .scoreGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .score {
+      background: #faf7f2;
+      border: 1px solid #ead9c4;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .score span {
+      display: block;
+      font-size: 14px;
+      color: #6a5b4d;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 6px;
+    }
+
+    .summaryBox {
+      background: #faf7f2;
+      border: 1px solid #ead9c4;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    li { margin-bottom: 8px; }
   </style>
 </head>
 
 <body>
-
-<div class="container">
-
-  <h1>Parent Advocacy Simulator</h1>
-
-  <div class="subtitle">
-    Cre8tive Consulting — Educating and empowering parents to advocate effectively for their children.
+  <div class="app">
+    <div class="card" id="app"></div>
   </div>
 
-  <div class="progress" id="progress">
-    Scenario 1 of 3
-  </div>
+  <script>
+    const initialScores = {
+      parentTrust: 0,
+      schoolPartnership: 0,
+      programReadiness: 0,
+      missionImpact: 0,
+      businessSustainability: 0
+    };
 
-  <div class="scenario-box">
-    <h2 id="scenarioTitle"></h2>
-    <p id="scenarioText"></p>
-  </div>
+    let phaseIndex = 0;
+    let selected = null;
+    let complete = false;
+    let scores = { ...initialScores };
+    let history = [];
 
-  <div id="choices"></div>
+    const phases = [
+      {
+        title: "Phase 1: Define the Initiative",
+        pm: "Initiation",
+        setup: "Criszia is shaping a new initiative through Cre8tive Consulting. The mission is to educate and empower parents to become stronger advocates for their children. A local 501(c)(3) is interested in partnering, but the idea is still broad.",
+        question: "What should Criszia do first?",
+        options: [
+          {
+            text: "Create a clear pilot concept with a specific audience, purpose, and expected outcome.",
+            feedback: "Strong choice. You clarified the mission before trying to sell or expand it. This creates focus and reduces confusion later.",
+            scores: { missionImpact: 2, programReadiness: 2, businessSustainability: 1 }
+          },
+          {
+            text: "Start promoting the idea broadly to see who is interested.",
+            feedback: "This creates visibility, but it may generate interest before the offer is clear. Momentum is good, but clarity should come first.",
+            scores: { parentTrust: 1, missionImpact: 1, programReadiness: -1 }
+          },
+          {
+            text: "Let the nonprofit define the program since they already work in the community.",
+            feedback: "This may feel collaborative, but it weakens Cre8tive Consulting’s leadership role. Criszia should enter the partnership with a defined value proposition.",
+            scores: { schoolPartnership: 1, businessSustainability: -2, programReadiness: -1 }
+          }
+        ]
+      },
+      {
+        title: "Phase 2: Align with the Nonprofit",
+        pm: "Stakeholder Alignment",
+        setup: "The nonprofit likes the idea and wants to support it. However, they begin suggesting additional services, extra workshops, and broader community outreach before the first pilot is approved.",
+        question: "How should Criszia respond?",
+        options: [
+          {
+            text: "Thank them for the ideas, but recommend starting with a focused pilot before expanding.",
+            feedback: "Excellent decision. You preserved enthusiasm while protecting scope. This is strong stakeholder and scope management.",
+            scores: { schoolPartnership: 2, programReadiness: 2, businessSustainability: 2 }
+          },
+          {
+            text: "Agree to include all the ideas so the nonprofit feels fully heard.",
+            feedback: "This builds goodwill, but it creates scope creep. Too much too soon can weaken execution and reduce sustainability.",
+            scores: { schoolPartnership: 1, programReadiness: -2, businessSustainability: -2 }
+          },
+          {
+            text: "Tell the nonprofit their ideas are outside the plan and should wait until later.",
+            feedback: "You protected scope, but the tone may reduce partnership trust. A warmer response would preserve both boundaries and relationship.",
+            scores: { programReadiness: 1, schoolPartnership: -1, parentTrust: -1 }
+          }
+        ]
+      },
+      {
+        title: "Phase 3: Approach the School",
+        pm: "Communications Planning",
+        setup: "Criszia is ready to approach a school about hosting the parent advocacy pilot. The school is busy, cautious, and protective of its time and families.",
+        question: "What is the best outreach approach?",
+        options: [
+          {
+            text: "Send a concise proposal showing the need, benefit to families, time commitment, and school role.",
+            feedback: "Strong choice. This respects the school’s time and clearly explains the value. Good communication builds trust.",
+            scores: { schoolPartnership: 2, programReadiness: 1, missionImpact: 1 }
+          },
+          {
+            text: "Send a passionate message about why parents need more advocacy support.",
+            feedback: "Passion matters, but schools also need structure. A stronger approach would combine heart with logistics and outcomes.",
+            scores: { missionImpact: 1, schoolPartnership: -1 }
+          },
+          {
+            text: "Ask the nonprofit to contact the school first so Cre8tive Consulting stays in the background.",
+            feedback: "This may open the door, but it reduces Criszia’s positioning as the initiative leader. She should remain visible and professional.",
+            scores: { schoolPartnership: 1, businessSustainability: -2 }
+          }
+        ]
+      },
+      {
+        title: "Phase 4: Present the Proposal",
+        pm: "Stakeholder Engagement",
+        setup: "The school agrees to a meeting. During the meeting, an administrator says, 'This sounds helpful, but our parents are already overwhelmed. How will this avoid becoming one more thing they do not attend?'",
+        question: "How should Criszia answer?",
+        options: [
+          {
+            text: "Acknowledge the concern and explain how the session will be practical, brief, supportive, and action-oriented.",
+            feedback: "Excellent response. You validated the concern while showing that the design respects parents’ real lives.",
+            scores: { parentTrust: 2, schoolPartnership: 2, missionImpact: 2 }
+          },
+          {
+            text: "Explain that parents need to make time if they care about their children’s education.",
+            feedback: "This may be well-intended, but it risks sounding judgmental. Parent empowerment should begin with empathy.",
+            scores: { parentTrust: -2, missionImpact: -1, schoolPartnership: -1 }
+          },
+          {
+            text: "Offer to make the program longer and more comprehensive to prove its value.",
+            feedback: "More content is not always better. This may increase burden and reduce attendance. Simplicity supports execution.",
+            scores: { programReadiness: -2, schoolPartnership: 1 }
+          }
+        ]
+      },
+      {
+        title: "Phase 5: Set Scope and Payment",
+        pm: "Scope and Resource Management",
+        setup: "The school likes the pilot. The nonprofit is willing to help promote it. However, no one has clearly discussed payment, roles, materials, or who handles follow-up.",
+        question: "What should Criszia do before moving forward?",
+        options: [
+          {
+            text: "Clarify deliverables, payment, roles, timeline, and follow-up responsibilities in writing.",
+            feedback: "Strong business decision. You protected the mission and the business. Clear terms prevent confusion later.",
+            scores: { businessSustainability: 3, programReadiness: 2, schoolPartnership: 1 }
+          },
+          {
+            text: "Move forward without discussing money because the mission is more important.",
+            feedback: "The mission matters, but sustainability matters too. If the business cannot sustain the work, the mission suffers later.",
+            scores: { missionImpact: 1, businessSustainability: -3, programReadiness: -1 }
+          },
+          {
+            text: "Ask the nonprofit to decide whether and how Criszia should be paid.",
+            feedback: "This gives away too much control. Cre8tive Consulting should define its own value and business terms.",
+            scores: { businessSustainability: -2, schoolPartnership: 1 }
+          }
+        ]
+      },
+      {
+        title: "Phase 6: Plan the Pilot",
+        pm: "Planning and Execution Readiness",
+        setup: "The pilot is approved. Now Criszia must prepare the workshop, handouts, parent communication, sign-in process, and post-session feedback.",
+        question: "What planning approach is strongest?",
+        options: [
+          {
+            text: "Create a simple execution checklist with owners, deadlines, materials, and success measures.",
+            feedback: "Excellent. This turns the idea into an executable plan. Strong leaders make the work clear before launch day.",
+            scores: { programReadiness: 3, missionImpact: 1, businessSustainability: 1 }
+          },
+          {
+            text: "Focus mostly on creating beautiful materials and trust the rest will come together.",
+            feedback: "Presentation matters, but execution requires more than design. Logistics and ownership are just as important.",
+            scores: { parentTrust: 1, programReadiness: -2 }
+          },
+          {
+            text: "Wait until the week of the event to finalize details so everything stays flexible.",
+            feedback: "Flexibility is useful, but late planning creates avoidable stress. A simple checklist would reduce risk.",
+            scores: { programReadiness: -3, schoolPartnership: -1 }
+          }
+        ]
+      },
+      {
+        title: "Phase 7: Manage Launch Challenge",
+        pm: "Risk and Issue Management",
+        setup: "On launch week, attendance is lower than expected. The school asks whether the session should be postponed. The nonprofit wants to continue, but Criszia is concerned about impact and perception.",
+        question: "What should Criszia do?",
+        options: [
+          {
+            text: "Proceed with the smaller group, deliver strong value, collect feedback, and use the pilot to improve the next session.",
+            feedback: "Strong leadership. A smaller pilot can still produce learning, testimonials, and refinement. You protected momentum.",
+            scores: { missionImpact: 2, parentTrust: 2, programReadiness: 1, businessSustainability: 1 }
+          },
+          {
+            text: "Cancel the session immediately because the turnout is disappointing.",
+            feedback: "Canceling may protect appearances, but it loses momentum and learning. A pilot does not need to be perfect to be valuable.",
+            scores: { missionImpact: -2, parentTrust: -1, schoolPartnership: -1 }
+          },
+          {
+            text: "Blame the school and nonprofit for not promoting it enough.",
+            feedback: "This damages trust. A stronger response would focus on learning, adjustment, and shared improvement.",
+            scores: { schoolPartnership: -3, parentTrust: -2, businessSustainability: -1 }
+          }
+        ]
+      }
+    ];
 
-  <div id="feedback"></div>
-
-  <button id="nextBtn" onclick="nextScenario()">
-    Continue to Next Scenario
-  </button>
-
-  <div id="scoreBox">
-    Advocacy Score: 0
-  </div>
-
-  <div class="footer">
-    Interactive MVP Simulator
-  </div>
-
-</div>
-
-<script>
-
-const scenarios = [
-
-{
-  title: "Scenario 1: School Meeting Preparation",
-  text: "You are preparing for a school meeting regarding your child’s academic progress. What should you do first?",
-  choices: [
-    {
-      text: "Review grades, notes, prior communication, and examples before attending.",
-      feedback: "Excellent. Strong advocacy begins with preparation and documentation.",
-      points: 10
-    },
-    {
-      text: "Immediately accuse the school of failing your child.",
-      feedback: "This may create conflict before productive communication begins.",
-      points: 0
-    },
-    {
-      text: "Wait and see what the school says first.",
-      feedback: "Listening matters, but preparation should happen before the meeting.",
-      points: 5
+    function totalScore() {
+      return Object.values(scores).reduce((a, b) => a + b, 0);
     }
-  ]
-},
 
-{
-  title: "Scenario 2: Emotional Conversation",
-  text: "During the meeting, emotions rise and the conversation becomes tense. What is your best response?",
-  choices: [
-    {
-      text: "Stay calm, ask clarifying questions, and refocus on solutions.",
-      feedback: "Excellent leadership and advocacy approach.",
-      points: 10
-    },
-    {
-      text: "Raise your voice so they understand your frustration.",
-      feedback: "Emotional escalation often weakens communication.",
-      points: 0
-    },
-    {
-      text: "End the meeting immediately and leave.",
-      feedback: "Sometimes breaks help, but ending communication too early may limit progress.",
-      points: 4
+    function getLeadershipProfile() {
+      const total = totalScore();
+      if (total >= 28) return "Strategic Mission Builder";
+      if (total >= 18) return "Relationship-Centered Organizer";
+      if (total >= 8) return "Emerging Initiative Leader";
+      return "Developing Leader with Growth Opportunities";
     }
-  ]
-},
 
-{
-  title: "Scenario 3: Follow-Up Action",
-  text: "The meeting is over. What should you do next?",
-  choices: [
-    {
-      text: "Send a respectful follow-up email documenting key points and next steps.",
-      feedback: "Outstanding. Documentation and follow-through are critical advocacy skills.",
-      points: 10
-    },
-    {
-      text: "Assume the school will handle everything now.",
-      feedback: "Strong advocates continue monitoring progress after meetings.",
-      points: 2
-    },
-    {
-      text: "Post complaints publicly online immediately.",
-      feedback: "Public escalation should rarely be the first follow-up step.",
-      points: 1
+    function render() {
+      const app = document.getElementById("app");
+
+      if (complete) {
+        app.innerHTML = `
+          <p class="eyebrow">Cre8tive Consulting Simulator</p>
+          <h1>Final Leadership Debrief</h1>
+          <h2>${getLeadershipProfile()}</h2>
+
+          <div class="scoreGrid">
+            ${scoreHTML("Parent Trust", scores.parentTrust)}
+            ${scoreHTML("School Partnership", scores.schoolPartnership)}
+            ${scoreHTML("Program Readiness", scores.programReadiness)}
+            ${scoreHTML("Mission Impact", scores.missionImpact)}
+            ${scoreHTML("Business Sustainability", scores.businessSustainability)}
+          </div>
+
+          <div class="summaryBox">
+            <h3>Leadership Summary</h3>
+            <p>
+              Criszia led a mission-driven consulting initiative focused on educating and
+              empowering parents to advocate for their children. Her decisions affected trust,
+              partnership strength, readiness, mission impact, and business sustainability.
+            </p>
+          </div>
+
+          <div class="summaryBox">
+            <h3>PM / Leadership Crosswalk</h3>
+            <ul>
+              <li><strong>Initiation:</strong> Defined the parent advocacy initiative.</li>
+              <li><strong>Stakeholder Management:</strong> Aligned with the nonprofit and school.</li>
+              <li><strong>Scope Management:</strong> Protected the pilot from growing too quickly.</li>
+              <li><strong>Communications:</strong> Addressed school concerns with clarity and empathy.</li>
+              <li><strong>Resource Planning:</strong> Clarified roles, payment, materials, and follow-up.</li>
+              <li><strong>Execution:</strong> Prepared the pilot for launch.</li>
+              <li><strong>Risk Management:</strong> Responded to low attendance without losing momentum.</li>
+            </ul>
+          </div>
+
+          <div class="summaryBox">
+            <h3>Reflection Question</h3>
+            <p>
+              What would you strengthen before running this initiative in real life:
+              the proposal, the partnership agreement, parent outreach, or the execution checklist?
+            </p>
+          </div>
+
+          <button onclick="restart()">Restart Simulator</button>
+        `;
+        return;
+      }
+
+      const phase = phases[phaseIndex];
+
+      app.innerHTML = `
+        <p class="eyebrow">Cre8tive Consulting Leadership Simulator</p>
+        <h1>${phase.title}</h1>
+        <p class="pmTag">PM Principle: ${phase.pm}</p>
+
+        <div class="progress">
+          <div style="width: ${((phaseIndex + 1) / phases.length) * 100}%"></div>
+        </div>
+
+        <p class="setup">${phase.setup}</p>
+
+        <h2>${phase.question}</h2>
+
+        <div class="options">
+          ${phase.options.map((option, index) => `
+            <button class="option ${selected === index ? "selected" : ""}" onclick="chooseOption(${index})">
+              ${option.text}
+            </button>
+          `).join("")}
+        </div>
+
+        ${selected !== null ? `
+          <div class="feedback">
+            <h3>Mentor Feedback</h3>
+            <p>${phase.options[selected].feedback}</p>
+            <button onclick="nextPhase()">
+              ${phaseIndex === phases.length - 1 ? "View Final Debrief" : "Continue"}
+            </button>
+          </div>
+        ` : ""}
+      `;
     }
-  ]
-}
 
-];
+    function scoreHTML(label, value) {
+      return `
+        <div class="score">
+          <span>${label}</span>
+          <strong>${value}</strong>
+        </div>
+      `;
+    }
 
-let currentScenario = 0;
-let score = 0;
+    function chooseOption(index) {
+      if (selected !== null) return;
 
-function loadScenario() {
+      const option = phases[phaseIndex].options[index];
 
-  document.getElementById("feedback").style.display = "none";
-  document.getElementById("nextBtn").style.display = "none";
+      Object.keys(option.scores).forEach(key => {
+        scores[key] += option.scores[key];
+      });
 
-  const scenario = scenarios[currentScenario];
+      selected = index;
 
-  document.getElementById("scenarioTitle").innerText = scenario.title;
-  document.getElementById("scenarioText").innerText = scenario.text;
+      history.push({
+        phase: phases[phaseIndex].title,
+        pm: phases[phaseIndex].pm,
+        choice: option.text,
+        feedback: option.feedback
+      });
 
-  document.getElementById("progress").innerText =
-    `Scenario ${currentScenario + 1} of ${scenarios.length}`;
+      render();
+    }
 
-  const choicesDiv = document.getElementById("choices");
-  choicesDiv.innerHTML = "";
+    function nextPhase() {
+      if (phaseIndex === phases.length - 1) {
+        complete = true;
+      } else {
+        phaseIndex++;
+        selected = null;
+      }
 
-  scenario.choices.forEach(choice => {
+      render();
+    }
 
-    const btn = document.createElement("button");
+    function restart() {
+      phaseIndex = 0;
+      selected = null;
+      complete = false;
+      scores = { ...initialScores };
+      history = [];
+      render();
+    }
 
-    btn.className = "choice";
-
-    btn.innerText = choice.text;
-
-    btn.onclick = () => selectChoice(choice);
-
-    choicesDiv.appendChild(btn);
-
-  });
-
-}
-
-function selectChoice(choice) {
-
-  score += choice.points;
-
-  document.getElementById("scoreBox").innerText =
-    `Advocacy Score: ${score}`;
-
-  const feedback = document.getElementById("feedback");
-
-  feedback.innerText = choice.feedback;
-
-  feedback.style.display = "block";
-
-  document.querySelectorAll(".choice").forEach(btn => {
-    btn.disabled = true;
-    btn.style.opacity = "0.7";
-  });
-
-  document.getElementById("nextBtn").style.display = "inline-block";
-
-}
-
-function nextScenario() {
-
-  currentScenario++;
-
-  if (currentScenario < scenarios.length) {
-
-    loadScenario();
-
-  } else {
-
-    document.querySelector(".scenario-box").innerHTML = `
-      <h2>Simulation Complete</h2>
-      <p>You completed the Parent Advocacy Simulator.</p>
-      <p>Your final Advocacy Score is <strong>${score}</strong>.</p>
-      <p>Strong advocacy combines preparation, professionalism, communication, and follow-through.</p>
-    `;
-
-    document.getElementById("choices").style.display = "none";
-    document.getElementById("feedback").style.display = "none";
-    document.getElementById("nextBtn").style.display = "none";
-
-    document.getElementById("progress").innerText =
-      "Completed";
-
-  }
-
-}
-
-loadScenario();
-
-</script>
-
+    render();
+  </script>
 </body>
 </html>
