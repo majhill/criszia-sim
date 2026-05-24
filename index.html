@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cre8tive Consulting Parent Advocacy Simulator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 30px;
+    }
+
+    .app {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #243b6b;
+    }
+
+    .subtitle {
+      color: #555;
+      font-size: 18px;
+    }
+
+    .scenario {
+      background: #eef4ff;
+      padding: 18px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #1f6feb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    button:hover {
+      background: #174ea6;
+    }
+
+    #feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #f0f8f2;
+      color: #1f4d2b;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <h1>Parent Advocacy Simulator</h1>
+    <p class="subtitle">Cre8tive Consulting — Educating and empowering parents to be advocates for their children.</p>
+
+    <div class="scenario">
+      <h2>Scenario 1: The School Meeting</h2>
+      <p>
+        You are a parent preparing for a school meeting about your child’s academic progress.
+        You are concerned, but you want to be respectful, informed, and effective.
+      </p>
+      <p><strong>What should you do first?</strong></p>
+    </div>
+
+    <button onclick="showFeedback('best')">
+      Review your child’s grades, notes, test results, and prior communication before the meeting.
+    </button>
+
+    <button onclick="showFeedback('weak')">
+      Go into the meeting and simply tell the school they need to fix the problem.
+    </button>
+
+    <button onclick="showFeedback('okay')">
+      Ask another parent what they think before gathering your own information.
+    </button>
+
+    <div id="feedback"></div>
+
+    <div class="footer">
+      Simple MVP test version
+    </div>
+  </div>
+
+  <script>
+    function showFeedback(choice) {
+      const feedback = document.getElementById("feedback");
+
+      if (choice === "best") {
+        feedback.innerHTML =
+          "Strong choice. Effective advocacy begins with preparation. When parents come informed, they can ask better questions and work more productively with the school.";
+      }
+
+      if (choice === "weak") {
+        feedback.innerHTML =
+          "This may express frustration, but it is not the strongest first step. Advocacy works best when concerns are supported by facts, examples, and clear questions.";
+      }
+
+      if (choice === "okay") {
+        feedback.innerHTML =
+          "This may help you think through the issue, but it should not replace reviewing your own child’s records and situation first.";
+      }
+
+      feedback.style.display = "block";
+    }
+  </script>
+</body>
+</html>
