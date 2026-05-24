@@ -2,47 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cre8tive Consulting Parent Advocacy Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cre8tive Consulting Simulator</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      background: #f4f7fb;
+      margin: 0;
       padding: 30px;
     }
 
-    .app {
-      max-width: 750px;
+    .container {
+      max-width: 850px;
       margin: auto;
       background: white;
-      padding: 30px;
       border-radius: 16px;
+      padding: 35px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.1);
     }
 
     h1 {
-      color: #243b6b;
+      color: #1f3c88;
+      margin-bottom: 5px;
     }
 
     .subtitle {
       color: #555;
-      font-size: 18px;
+      margin-bottom: 30px;
     }
 
-    .scenario {
+    .progress {
+      margin-bottom: 25px;
+      font-weight: bold;
+      color: #1f6feb;
+    }
+
+    .scenario-box {
       background: #eef4ff;
-      padding: 18px;
+      padding: 20px;
       border-radius: 10px;
-      margin: 20px 0;
+      margin-bottom: 25px;
     }
 
-    button {
+    .choice {
       display: block;
       width: 100%;
-      margin: 12px 0;
-      padding: 14px;
+      margin-bottom: 15px;
+      padding: 15px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #1f6feb;
       color: white;
       font-size: 16px;
@@ -50,83 +59,245 @@
       text-align: left;
     }
 
-    button:hover {
+    .choice:hover {
       background: #174ea6;
     }
 
     #feedback {
       display: none;
-      margin-top: 20px;
-      padding: 18px;
+      margin-top: 25px;
+      padding: 20px;
       border-radius: 10px;
       background: #f0f8f2;
       color: #1f4d2b;
       font-weight: bold;
     }
 
-    .footer {
+    #nextBtn {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #28a745;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #scoreBox {
       margin-top: 25px;
-      font-size: 14px;
-      color: #777;
+      font-size: 18px;
+      font-weight: bold;
+      color: #1f3c88;
+    }
+
+    .footer {
+      margin-top: 35px;
       text-align: center;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
-  <div class="app">
-    <h1>Parent Advocacy Simulator</h1>
-    <p class="subtitle">Cre8tive Consulting — Educating and empowering parents to be advocates for their children.</p>
 
-    <div class="scenario">
-      <h2>Scenario 1: The School Meeting</h2>
-      <p>
-        You are a parent preparing for a school meeting about your child’s academic progress.
-        You are concerned, but you want to be respectful, informed, and effective.
-      </p>
-      <p><strong>What should you do first?</strong></p>
-    </div>
+<div class="container">
 
-    <button onclick="showFeedback('best')">
-      Review your child’s grades, notes, test results, and prior communication before the meeting.
-    </button>
+  <h1>Parent Advocacy Simulator</h1>
 
-    <button onclick="showFeedback('weak')">
-      Go into the meeting and simply tell the school they need to fix the problem.
-    </button>
-
-    <button onclick="showFeedback('okay')">
-      Ask another parent what they think before gathering your own information.
-    </button>
-
-    <div id="feedback"></div>
-
-    <div class="footer">
-      Simple MVP test version
-    </div>
+  <div class="subtitle">
+    Cre8tive Consulting — Educating and empowering parents to advocate effectively for their children.
   </div>
 
-  <script>
-    function showFeedback(choice) {
-      const feedback = document.getElementById("feedback");
+  <div class="progress" id="progress">
+    Scenario 1 of 3
+  </div>
 
-      if (choice === "best") {
-        feedback.innerHTML =
-          "Strong choice. Effective advocacy begins with preparation. When parents come informed, they can ask better questions and work more productively with the school.";
-      }
+  <div class="scenario-box">
+    <h2 id="scenarioTitle"></h2>
+    <p id="scenarioText"></p>
+  </div>
 
-      if (choice === "weak") {
-        feedback.innerHTML =
-          "This may express frustration, but it is not the strongest first step. Advocacy works best when concerns are supported by facts, examples, and clear questions.";
-      }
+  <div id="choices"></div>
 
-      if (choice === "okay") {
-        feedback.innerHTML =
-          "This may help you think through the issue, but it should not replace reviewing your own child’s records and situation first.";
-      }
+  <div id="feedback"></div>
 
-      feedback.style.display = "block";
+  <button id="nextBtn" onclick="nextScenario()">
+    Continue to Next Scenario
+  </button>
+
+  <div id="scoreBox">
+    Advocacy Score: 0
+  </div>
+
+  <div class="footer">
+    Interactive MVP Simulator
+  </div>
+
+</div>
+
+<script>
+
+const scenarios = [
+
+{
+  title: "Scenario 1: School Meeting Preparation",
+  text: "You are preparing for a school meeting regarding your child’s academic progress. What should you do first?",
+  choices: [
+    {
+      text: "Review grades, notes, prior communication, and examples before attending.",
+      feedback: "Excellent. Strong advocacy begins with preparation and documentation.",
+      points: 10
+    },
+    {
+      text: "Immediately accuse the school of failing your child.",
+      feedback: "This may create conflict before productive communication begins.",
+      points: 0
+    },
+    {
+      text: "Wait and see what the school says first.",
+      feedback: "Listening matters, but preparation should happen before the meeting.",
+      points: 5
     }
-  </script>
+  ]
+},
+
+{
+  title: "Scenario 2: Emotional Conversation",
+  text: "During the meeting, emotions rise and the conversation becomes tense. What is your best response?",
+  choices: [
+    {
+      text: "Stay calm, ask clarifying questions, and refocus on solutions.",
+      feedback: "Excellent leadership and advocacy approach.",
+      points: 10
+    },
+    {
+      text: "Raise your voice so they understand your frustration.",
+      feedback: "Emotional escalation often weakens communication.",
+      points: 0
+    },
+    {
+      text: "End the meeting immediately and leave.",
+      feedback: "Sometimes breaks help, but ending communication too early may limit progress.",
+      points: 4
+    }
+  ]
+},
+
+{
+  title: "Scenario 3: Follow-Up Action",
+  text: "The meeting is over. What should you do next?",
+  choices: [
+    {
+      text: "Send a respectful follow-up email documenting key points and next steps.",
+      feedback: "Outstanding. Documentation and follow-through are critical advocacy skills.",
+      points: 10
+    },
+    {
+      text: "Assume the school will handle everything now.",
+      feedback: "Strong advocates continue monitoring progress after meetings.",
+      points: 2
+    },
+    {
+      text: "Post complaints publicly online immediately.",
+      feedback: "Public escalation should rarely be the first follow-up step.",
+      points: 1
+    }
+  ]
+}
+
+];
+
+let currentScenario = 0;
+let score = 0;
+
+function loadScenario() {
+
+  document.getElementById("feedback").style.display = "none";
+  document.getElementById("nextBtn").style.display = "none";
+
+  const scenario = scenarios[currentScenario];
+
+  document.getElementById("scenarioTitle").innerText = scenario.title;
+  document.getElementById("scenarioText").innerText = scenario.text;
+
+  document.getElementById("progress").innerText =
+    `Scenario ${currentScenario + 1} of ${scenarios.length}`;
+
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+
+  scenario.choices.forEach(choice => {
+
+    const btn = document.createElement("button");
+
+    btn.className = "choice";
+
+    btn.innerText = choice.text;
+
+    btn.onclick = () => selectChoice(choice);
+
+    choicesDiv.appendChild(btn);
+
+  });
+
+}
+
+function selectChoice(choice) {
+
+  score += choice.points;
+
+  document.getElementById("scoreBox").innerText =
+    `Advocacy Score: ${score}`;
+
+  const feedback = document.getElementById("feedback");
+
+  feedback.innerText = choice.feedback;
+
+  feedback.style.display = "block";
+
+  document.querySelectorAll(".choice").forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
+  });
+
+  document.getElementById("nextBtn").style.display = "inline-block";
+
+}
+
+function nextScenario() {
+
+  currentScenario++;
+
+  if (currentScenario < scenarios.length) {
+
+    loadScenario();
+
+  } else {
+
+    document.querySelector(".scenario-box").innerHTML = `
+      <h2>Simulation Complete</h2>
+      <p>You completed the Parent Advocacy Simulator.</p>
+      <p>Your final Advocacy Score is <strong>${score}</strong>.</p>
+      <p>Strong advocacy combines preparation, professionalism, communication, and follow-through.</p>
+    `;
+
+    document.getElementById("choices").style.display = "none";
+    document.getElementById("feedback").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+
+    document.getElementById("progress").innerText =
+      "Completed";
+
+  }
+
+}
+
+loadScenario();
+
+</script>
+
 </body>
 </html>
